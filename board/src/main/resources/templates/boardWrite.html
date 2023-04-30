@@ -20,10 +20,12 @@
 </head>
 <body>
     <div class = "layout">
-        <form action = "/board/writepro" method="post">
+        <form action = "/board/writepro" method="post" enctype="multipart/form-data">
             <h3>게시판</h3>
             <input name = "title" type = "text">
             <textarea name = "content"></textarea>
+            <input type = "file" name = "file">
+            <br>
             <button type = "submit">작성</button>
         </form>
     </div>
