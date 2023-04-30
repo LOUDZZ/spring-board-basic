@@ -28,9 +28,12 @@ public class BoardController {
 
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board) { //form 태그를 통해 전달된 title과 content를 entity 형태로 받음
+    public String boardWritePro(Board board, Model model) { //form 태그를 통해 전달된 title과 content를 entity 형태로 받음
         boardService.write(board);
-        return "";
+
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+        return "message";
     }
 
     @GetMapping("/board/list")
@@ -60,14 +63,17 @@ public class BoardController {
         return "boardModify";
     }
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable Integer id, Board board) {
+    public String boardUpdate(@PathVariable Integer id, Board board, Model model) {
         Board boardTemp = boardService.boardView(id);
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
 
         boardService.write(boardTemp);
 
-        return "redirect:/board/list";
+        model.addAttribute("message", "글 수정이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message";
     }
 
 
