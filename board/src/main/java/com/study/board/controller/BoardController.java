@@ -44,15 +44,22 @@ public class BoardController {
 
     //page 번호는 0번 부터 시작하고, size는 페이지 당 보여줄 게시글 개수, sort 기준을 id, 소팅방향은 역순
     @GetMapping("/board/list")
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String boardList(Model model,
+                            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                            String searchKeyword) {
+        Page<Board> list = null;
 
-        Page<Board> list = boardService.boardList(pageable);
+        if (searchKeyword == null) {
+            list = boardService.boardList(pageable);
+        } else {
+             list = boardService.boardSearchList(searchKeyword, pageable);
+        }
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        model.addAttribute("list", boardService.boardList(pageable));
+        model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);

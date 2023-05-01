@@ -1,5 +1,7 @@
 package com.study.board.repository;
 //레파지토리는, 레파지토리라고 import 해주어야 함.
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.study.board.entity.Board;
@@ -21,5 +23,5 @@ import com.study.board.entity.Board;
 @Repository
 //Repository를 통해 빈 등록
 public interface BoardRepository extends JpaRepository<Board,Integer> {
-
+    Page<Board> findByTitleContaining(String searchKeyword, Pageable pageable);
 }
